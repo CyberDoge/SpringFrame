@@ -3,7 +3,6 @@ package org.hh.to.production.frame.model;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 @Entity
@@ -15,11 +14,11 @@ public class User {
     private int id;
 
     @Column(name = "username", unique = true, nullable = false)
-    @NotEmpty(message = "Please provide not empty username")
+    @Length(min = 1, max = 255, message = "not valid username length")
     private String username;
 
     @Column(name="password", nullable = false)
-    @Length(min = 5, message = "*Your password must have at least 5 characters")
+    @Length(min = 5, max = 255, message = "Your password must have at least 5 characters")
     @Transient
     String password;
 
