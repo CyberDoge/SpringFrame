@@ -38,17 +38,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/home").permitAll()
-                .antMatchers("/").permitAll()
                 .antMatchers("/registration").permitAll()
-                .antMatchers("/user/**").access("hasRole('USER')")
+                .antMatchers("/user/**").hasAuthority("USER")
                 .antMatchers("/admin/**").hasAuthority("ADMIN") //.anyRequest().authenticated()
                 .and().formLogin()
-                .loginPage("/login").permitAll()
-                //.failureUrl("redirect:/login?error=true")
-                .defaultSuccessUrl("/", true)
+                .loginPage("/login")
+                .failureUrl("/login?error=true")
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/").and().exceptionHandling()
-                .accessDeniedPage("/access-denied");
+                .logoutSuccessUrl("/")
+                .and().csrf().disable();
     }
 
     @Override

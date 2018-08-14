@@ -19,7 +19,6 @@ public class User {
 
     @Column(name="password", nullable = false)
     @Length(min = 5, max = 255, message = "Your password must have at least 5 characters")
-    @Transient
     String password;
 
     @ManyToMany(cascade = CascadeType.ALL)

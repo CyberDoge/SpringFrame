@@ -1,24 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>login</title>
 </head>
 <body>
 <h3>fill in all forms</h3>
-<form action="/login" method="post">
-    <div>
-        <input type="text" placeholder="Username" required="required">
-    </div>
-    <div>
-        <input type="password" placeholder="Password" required="required">
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Login">
-    </div>
-    <div>
-        <input type="checkbox" value="remember me">
-    </div>
+<p th:if="${(param.error != null) && (param.error[0] == 'true')}">Wrong user or password</p>
+<form th:action="@{/login}" method="post">
+    <label for="username">Username</label>:
+    <input type="text" id="username" name="username" autofocus="autofocus"/> <br/>
+    <label for="password">Password</label>:
+    <input type="password" id="password" name="password"/> <br/>
+    <button type="submit">Log in</button>
 </form>
 </body>
 </html>
