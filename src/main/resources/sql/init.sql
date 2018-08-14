@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS user;
 CREATE TABLE user (
   user_id  int primary key auto_increment,
   username varchar(50) unique not null,
-  password varchar(255)       not null
+  password varchar(255)
 );
 DROP TABLE IF EXISTS role;
 CREATE TABLE role (

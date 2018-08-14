@@ -34,7 +34,7 @@ public class RegisterController {
         } else {
             userService.saveUser(user);
             modelAndView.addObject("user", new User());
-            modelAndView.setViewName("/user/home");
+            modelAndView.setViewName("redirect:/user/home");
 
         }
         return modelAndView;

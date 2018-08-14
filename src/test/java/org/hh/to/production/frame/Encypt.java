@@ -9,6 +9,10 @@ public class Encypt {
         System.out.println(new BCryptPasswordEncoder().encode("123123"));
     }
     @Test
+   public void Test(){
+        System.out.println(new BCryptPasswordEncoder().matches("123123", " "));
+    }
+    @Test
     public void longPass(){
         StringBuilder str = new StringBuilder();
         for(int i =0; i < 265; i++) str.append("s");
