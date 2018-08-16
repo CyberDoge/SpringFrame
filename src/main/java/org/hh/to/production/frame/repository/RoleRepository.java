@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.Table;
 
-@Repository("roleRepository")
+@Repository
 @Table(name = "role")
 public interface RoleRepository extends JpaRepository<Role, Integer> {
     Role findByRole(String role);

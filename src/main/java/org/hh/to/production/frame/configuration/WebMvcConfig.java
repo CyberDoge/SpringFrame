@@ -16,8 +16,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public UserService userService(){
-        return new UserServiceImpl();
-    }
 }

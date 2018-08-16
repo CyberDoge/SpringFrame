@@ -5,7 +5,8 @@ DROP TABLE IF EXISTS user;
 CREATE TABLE user (
   user_id  int primary key auto_increment,
   username varchar(50) unique not null,
-  password varchar(255)
+  password varchar(255)       not null,
+  enabled tinyint(1)default 1
 );
 DROP TABLE IF EXISTS role;
 CREATE TABLE role (
@@ -23,3 +24,11 @@ CREATE TABLE user_role (
   CONSTRAINT `FK859n2jvi8ivhui0rl0esws6o` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `FKa68196081fvovjhkek5m97n3y` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`)
 );
+
+insert into role value(1, 'ADMIN');
+insert into role values(2, 'USER');
+
+use frame;
+insert into user(username, password) value ("admin", "$2a$10$S7ukTjY7CoR.O2uksyWrjuBDIOCEgBzMPyfAI1aXS36HXLJDKIcdO");
+insert into user_role value (1, 1);
+insert into user_role value (1, 2);

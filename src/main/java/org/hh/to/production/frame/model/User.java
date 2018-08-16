@@ -10,20 +10,31 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="user_id")
+    @Column(name = "user_id")
     private int id;
 
     @Column(name = "username", unique = true, nullable = false)
     @Length(min = 1, max = 255, message = "not valid username length")
     private String username;
 
-    @Column(name="password", nullable = false)
+    @Column(name = "password", nullable = false)
     @Length(min = 5, max = 255, message = "Your password must have at least 5 characters")
-    String password;
+    private String password;
+
+    @Column(name = "enabled")
+    private boolean enabled;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public int getId() {
         return id;

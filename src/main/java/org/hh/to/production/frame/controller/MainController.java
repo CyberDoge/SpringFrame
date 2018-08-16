@@ -10,22 +10,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class IndexController {
+public class MainController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    public String openMainPage(){
+    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
+    public String openMainPage() {
         return "index";
     }
 
-    @RequestMapping(value = {"/user/home"}, method = RequestMethod.GET)
-    public ModelAndView openHomePage(){
+
+    @RequestMapping(value = {"/user/home", "/user/"}, method = RequestMethod.GET)
+    public ModelAndView openHomePage() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return new ModelAndView("home", "user", userService.findUserByUsername(user.getUsername()));
     }
-    @RequestMapping(value = {"/access-denied"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public String accessDenied(){
-        return "access-denied";
+
+    @RequestMapping(value = {"/admin/home", "/admin/"}, method = RequestMethod.GET)
+    public ModelAndView openAdminPage() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return new ModelAndView("admin-home", "user", userService.findUserByUsername(user.getUsername()));
     }
 }

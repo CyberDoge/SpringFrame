@@ -40,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/home").permitAll()
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/user/**").hasAuthority("USER")
-                .antMatchers("/admin/**").hasAuthority("ADMIN") //.anyRequest().authenticated()
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .and().formLogin()
                 .loginPage("/login")
                 .failureUrl("/login?error=true")
@@ -51,6 +51,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+        web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/static/js/**", "/images/**");
     }
 }
