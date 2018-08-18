@@ -34,4 +34,10 @@ public class MainController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return new ModelAndView("admin-home", "user", userService.findUserByUsername(user.getUsername()));
     }
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String test(){
+        SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+        return "redirect:/user/home";
+    }
 }

@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -29,6 +30,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Value("${spring.queries.roles-query}")
     private String rolesQuery;
+
+    @Autowired
+    private SessionRegistry sessionRegistry;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -50,6 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/")
                 .and().csrf().disable();
+        http.sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry);
     }
     @Override
     public void configure(WebSecurity web) {
@@ -61,4 +66,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
+
+
 }
