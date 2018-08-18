@@ -6,7 +6,7 @@ CREATE TABLE user (
   user_id  int primary key auto_increment,
   username varchar(50) unique not null,
   password varchar(255)       not null,
-  enabled tinyint(1)default 1
+  enabled tinyint(1) default 1
 );
 DROP TABLE IF EXISTS role;
 CREATE TABLE role (

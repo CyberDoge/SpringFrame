@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class MainController {
     @Autowired
@@ -27,7 +29,8 @@ public class MainController {
     }
 
     @RequestMapping(value = {"/admin/home", "/admin/"}, method = RequestMethod.GET)
-    public ModelAndView openAdminPage() {
+    public ModelAndView openAdminPage(HttpServletRequest request) {
+
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return new ModelAndView("admin-home", "user", userService.findUserByUsername(user.getUsername()));
     }

@@ -26,10 +26,13 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void banUser(String username) {
+    public String banUser(String username) {
         User user = userRepository.findByUsername(username);
+        if (user == null) return "No user with such username";
+        if (!user.isEnabled()) return "User is already baned";
         user.setEnabled(false);
         userRepository.save(user);
+        return "Success";
     }
 
     @Override

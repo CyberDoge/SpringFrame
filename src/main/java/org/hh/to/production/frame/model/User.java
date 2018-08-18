@@ -3,6 +3,7 @@ package org.hh.to.production.frame.model;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.Set;
 
 @Entity
@@ -15,6 +16,7 @@ public class User {
 
     @Column(name = "username", unique = true, nullable = false)
     @Length(min = 1, max = 255, message = "not valid username length")
+    @Pattern(regexp = "^(?=.*[A-Za-z0-9]$)[A-Za-z][A-Za-z\\d.-]{0,19}$", message = "Invalid username!")
     private String username;
 
     @Column(name = "password", nullable = false)

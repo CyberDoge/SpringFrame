@@ -3,9 +3,11 @@ package org.hh.to.production.frame.controller;
 import org.hh.to.production.frame.model.User;
 import org.hh.to.production.frame.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -16,9 +18,19 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
+    @Autowired
+    private SessionRegistry sessionRegistry;
+
     @RequestMapping(value = "/admin/userList", method = RequestMethod.POST)
     @ResponseBody
-    public List<User> sendUserList(){
+    public List<User> sendUserList() {
         return adminService.findAll();
+    }
+
+    @RequestMapping(value = "/admin/banUser", method = RequestMethod.POST)
+    @ResponseBody
+    public String sendUserList(@RequestParam() String username) {
+        if (username.isEmpty()) return "Empty name";
+        return adminService.banUser(username);
     }
 }

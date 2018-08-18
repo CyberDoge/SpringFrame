@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface AdminService {
     List<User>  findAll();
-    void banUser(String username);
+
+    String banUser(String username);
     void makeAdmin(User user);
 }
