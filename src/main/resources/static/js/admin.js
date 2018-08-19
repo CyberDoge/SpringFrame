@@ -3,7 +3,13 @@ $(function () {
         send_ajax_for_user_list()
     });
     $("#ban-user").click(function () {
-        send_ajax_for_user_ban($("#username-for-ban").val())
+        send_ajax_for_user_ban($("#username-for-action").val())
+    })
+    $("#unban-user").click(function () {
+        send_ajax_for_user_unban($("#username-for-action").val())
+    })
+    $("#make-admin").click(function () {
+        send_ajax_to_make_admin($("#username-for-action").val())
     })
 });
 
@@ -11,6 +17,27 @@ function send_ajax_for_user_ban(username) {
     $.ajax({
         type: "POST",
         url: "banUser",
+        data: {"username": username},
+        success: function (res) {
+            alert(res)
+        }
+    })
+}
+
+function send_ajax_to_make_admin(username) {
+    $.ajax({
+        type: "POST",
+        url: "makeAdmin",
+        data: {"username": username},
+        success: function (res) {
+            alert(res)
+        }
+    })
+}
+function send_ajax_for_user_unban(username) {
+    $.ajax({
+        type: "POST",
+        url: "unbanUser",
         data: {"username": username},
         success: function (res) {
             alert(res)

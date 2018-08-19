@@ -29,15 +29,9 @@ public class MainController {
     }
 
     @RequestMapping(value = {"/admin/home", "/admin/"}, method = RequestMethod.GET)
-    public ModelAndView openAdminPage(HttpServletRequest request) {
+    public ModelAndView openAdminPage() {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return new ModelAndView("admin-home", "user", userService.findUserByUsername(user.getUsername()));
-    }
-
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String test(){
-        SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
-        return "redirect:/user/home";
     }
 }

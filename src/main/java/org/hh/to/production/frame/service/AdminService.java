@@ -8,5 +8,6 @@ public interface AdminService {
     List<User>  findAll();
 
     String banUser(String username);
-    void makeAdmin(User user);
+    String unbanUser(String username);
+    String makeAdmin(String username);
 }

@@ -33,4 +33,16 @@ public class UserServiceImpl implements UserService {
         user.setEnabled(true);
         userRepository.save(user);
     }
+
+    @Override
+    public String changePassword(String username, String oldPassword, String newPassword) {
+        if (oldPassword.isEmpty()|| newPassword.isEmpty()) return "Please fill in all fields";
+        if (newPassword.length() < 5) return "Your password must have at least 5 characters";
+        User user = userRepository.findByUsername(username);
+        assert user != null;
+        if(!bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) return "Wrong password";
+        user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        userRepository.save(user);
+        return "Success";
+    }
 }

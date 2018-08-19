@@ -1,10 +1,27 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script th:src="@{/js/user.js}" type="text/javascript"></script>
 </head>
 <body>
 <h3>home</h3>
+<h5>change password</h5>
+<p>
+    <label for="password">password</label>
+    <input type="password" id="password"/>
+</p>
+<p>
+    <label for="new_password">new password</label>
+    <input type="password" id="new_password"/>
+</p>
+<p>
+    <label for="confirm">confirm</label>
+    <input type="password" id="confirm"/>
+</p>
+<button id="change_password">change password</button>
 </body>
 </html>
