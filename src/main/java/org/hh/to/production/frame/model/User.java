@@ -1,5 +1,6 @@
 package org.hh.to.production.frame.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class User {
 
     @Column(name = "password", nullable = false)
     @Length(min = 5, max = 255, message = "Your password must have at least 5 characters")
+    @JsonIgnore
     private String password;
 
     @Column(name = "enabled")
@@ -29,6 +31,17 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
+    @Transient
+    private boolean online;
+
+    public void setOnline(boolean online){
+        this.online = online;
+    }
+
+    public boolean isOnline(){
+        return online;
+    }
 
     public boolean isEnabled() {
         return enabled;

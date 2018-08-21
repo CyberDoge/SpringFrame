@@ -28,7 +28,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<User> findAll() {
-        return userRepository.findAll();
+        List<User> users = userRepository.findAll();
+        sessionRegistry.getAllPrincipals().stream().forEach(ud -> users.stream()
+                .filter(u -> u.getUsername().equals(((UserDetails) ud).getUsername()))
+                .findFirst().ifPresent(user -> user.setOnline(true)));
+        return users;
     }
 
     @Override
@@ -55,7 +59,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public String  makeAdmin(String username) {
+    public String makeAdmin(String username) {
         Set<Role> roles = Stream.of(roleRepository.findByRole("USER"), roleRepository.findByRole("ADMIN")).collect(Collectors.toSet());
         User user = userRepository.findByUsername(username);
         if (user == null) return "No user with such username";

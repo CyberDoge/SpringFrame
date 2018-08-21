@@ -57,13 +57,13 @@ function send_ajax_for_user_list() {
 
 function createList(data) {
     $("#user-list").empty();
-    $("#user-list").append("<tr><td>id</td><td>username</td><td>enabled</td><td>roles</td>");
+    $("#user-list").append("<tr><td>id</td><td>username</td><td>enabled</td><td>online</td><td>roles</td>");
     $.each(data, function () {
         var roles = "";
         $.each(this.roles, function () {
             roles += "<small>" + this.role + "</small> "
         });
-        $("#user-list").append("<tr><td>" + this.id + "</td><td>" + this.username + "</td><td>" + this.enabled + "</td><td>"
+        $("#user-list").append("<tr><td>" + this.id + "</td><td>" + this.username + "</td><td>" + this.enabled + "</td><td>"+this.online+"</td><td>"
             + roles + "</td></tr>");
     })
 }
