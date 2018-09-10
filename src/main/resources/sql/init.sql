@@ -27,8 +27,20 @@ CREATE TABLE user_role (
 
 insert into role value(1, 'ADMIN');
 insert into role values(2, 'USER');
+insert into role values(3, 'POSTER');
 
 use frame;
 insert into user(username, password) value ("admin", "$2a$10$S7ukTjY7CoR.O2uksyWrjuBDIOCEgBzMPyfAI1aXS36HXLJDKIcdO");
 insert into user_role value (1, 1);
 insert into user_role value (1, 2);
+
+CREATE TABLE post(
+  post_id int primary key auto_increment,
+  posting_date BIGINT,
+  post_text TEXT
+);
+CREATE TABLE post_images(
+  post_id int,
+  path VARCHAR(20),
+  FOREIGN KEY (post_id) references post (post_id)
+);
