@@ -11,18 +11,18 @@
 <body>
 <h3>Enter post info here</h3>
 <form action="/poster/save" method="post">
+    <input type="text" id="header" title="post header"/>
     <textarea name="content" id="editor"></textarea>
-    <button id='test' type="button">save</button>
+    <button type="submit">save</button>
 </form>
 <script>
     ClassicEditor.create(document.querySelector('#editor'), {
         ckfinder: {
             uploadUrl: '/poster/saveImage'
         }
-    })
-        .catch(error => {
-            console.error(error);
-        });
+    }).catch(error => {
+        console.error(error);
+    });
 </script>
 </body>
 </html>

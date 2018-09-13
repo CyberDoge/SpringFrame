@@ -27,5 +27,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
         return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
     }
-
 }

@@ -12,6 +12,9 @@ public class Post {
     @Column(name = "post_id")
     private int id;
 
+    @Column(name = "header")
+    private String header;
+
     @Column(name = "posting_date")
     private long date;
 
