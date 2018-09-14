@@ -1,6 +1,9 @@
 package org.hh.to.production.frame.controller;
 
+import org.hh.to.production.frame.model.Post;
+import org.hh.to.production.frame.service.PostService;
 import org.jsoup.Jsoup;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,27 +17,35 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class PostController implements HttpSessionListener {
 
     private List<String> postFilesList;
 
+    @Autowired
+    PostService postService;
+
     @RequestMapping("/poster/new")
     public String createNewPost() throws IOException {
         if (postFilesList == null || postFilesList.isEmpty()) {
+            deleteFolder(new File("image/" + postFilesList.get(0)));
             createDir();
         } else deleteFolder(new File("image/" + postFilesList.get(0)));
         return "create_post";
     }
 
     @RequestMapping(value = "/poster/save", method = RequestMethod.POST)
-    public String savePost(@RequestParam("header") String header, @RequestParam("content") String content) {
-        //todo check if header has already exist
+    public String savePost(@RequestParam("header") String header, @RequestParam("content") String content, HttpServletRequest request) {
+        if (header.isEmpty()) {
+            request.setAttribute("error", "post header cannot be empty");
+            return "/poster/new";
+        }
+        if (postService.findPost(header) != null) {
+            request.setAttribute("error", "post with this header has been already exist");
+            return "/poster/new";
+        }
         var document = Jsoup.parse(content);
         var images = document.getElementsByTag("img");
         if (!images.isEmpty()) {
@@ -45,20 +56,22 @@ public class PostController implements HttpSessionListener {
                     e.printStackTrace();
                 }
                 var attr = i.attributes().get("src");
-                final var res = attr.substring(attr.lastIndexOf((int) '/')+1);
+                final var res = attr.substring(attr.lastIndexOf((int) '/') + 1);
                 //move images to another dir
                 postFilesList.stream().filter(s -> s.equals(res)).findFirst().ifPresent(s -> {
                     try {
-                        var l = Files.move(Paths.get(postFilesList.get(0) + "/" + s), Paths.get("image/" + header + "/" + s), StandardCopyOption.REPLACE_EXISTING);
-                        System.out.println(l);
+                        Files.move(Paths.get(postFilesList.get(0) + "/" + s), Paths.get("image/" + header + "/" + s), StandardCopyOption.REPLACE_EXISTING);
+                        i.attr("src", "/image/" + header + "/" + res);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 });
             });
         }
+        //remove old dirs
         deleteFolder(new File(postFilesList.get(0)));
-        return "redirect://localhost:8080/index";
+        postService.save(new Post(header, document.body().children().html(), new Date().getTime()));
+        return "redirect://localhost:8080/";
     }
 
     @RequestMapping(value = "/poster/saveImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

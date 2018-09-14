@@ -36,11 +36,7 @@ insert into user_role value (1, 2);
 
 CREATE TABLE post(
   post_id int primary key auto_increment,
+  header VARCHAR(50) unique ,
   posting_date BIGINT,
   post_text TEXT
-);
-CREATE TABLE post_images(
-  post_id int,
-  path VARCHAR(20),
-  FOREIGN KEY (post_id) references post (post_id)
 );

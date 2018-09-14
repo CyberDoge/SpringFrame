@@ -2,13 +2,12 @@ package org.hh.to.production.frame.model;
 
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "post")
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
     private int id;
 
@@ -18,13 +17,17 @@ public class Post {
     @Column(name = "posting_date")
     private long date;
 
-    @ElementCollection
-    @CollectionTable(name = "post_images", joinColumns = @JoinColumn(name = "post_id"))
-    @Column(name = "post_images.path")
-    private List<String> images;
-
     @Column(name = "post_text")
     private String text;
+
+    public Post(String header, String text, long date) {
+        this.header = header;
+        this.text = text;
+        this.date = date;
+    }
+
+    public Post() {
+    }
 
     public int getId() {
         return id;
@@ -42,16 +45,16 @@ public class Post {
         this.date = date;
     }
 
-    public List<String> getImages() {
-        return images;
-    }
-
-    public void setImages(List<String> images) {
-        this.images = images;
-    }
-
     public String getText() {
         return text;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
     }
 
     public void setText(String text) {
