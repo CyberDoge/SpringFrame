@@ -5,6 +5,7 @@ import org.hh.to.production.frame.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -25,8 +26,7 @@ public class NewsController {
     }
 
     @RequestMapping(value = "/news/{id}")
-    @ResponseBody
-    public Post openPost(@PathVariable int id){
-        return postService.findPost(id);
+    public ModelAndView openPost(@PathVariable int id) {
+        return new ModelAndView("post", "post", postService.findPost(id));
     }
 }

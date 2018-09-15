@@ -6,7 +6,7 @@ $(function () {
             getMorePosts(lastId)
         }
     });
-})
+});
 
 function getMorePosts(lastId) {
     $.ajax({
@@ -18,7 +18,7 @@ function getMorePosts(lastId) {
         success: function (data) {
             lastId = data[data.length - 1].id;
             for (let i = 0; i < data.length; i++) {
-                $("main").prepend('<a href="/news/' + data[i].id + '>"<hr><div><h3>' + data[i].header + '</h3><br><div>' + data[i].text + '</div></div></a>');
+                $("main").prepend('<a href="/news/' + data[i].id + '"><hr><div><h3>' + data[i].header + '</h3><br><div>' + data[i].text + '</div></div></a>');
             }
         },
         error: function (error) {
