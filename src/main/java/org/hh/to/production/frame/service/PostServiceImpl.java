@@ -5,6 +5,8 @@ import org.hh.to.production.frame.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostServiceImpl implements PostService {
     @Autowired
@@ -40,5 +42,12 @@ public class PostServiceImpl implements PostService {
         var post = postRepository.findPostByHeader(oldHeader);
         post.setHeader(newHeader);
         postRepository.save(post);
+    }
+
+    @Override
+    public List<Post> printPostFrom(int last) {
+        if (last < 1) last = postRepository.findFirstByOrderByIdDesc().getId();
+        int from = last - 10;
+        return postRepository.findPostByIdBetween(from, last);
     }
 }

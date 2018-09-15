@@ -30,7 +30,6 @@ public class PostController implements HttpSessionListener {
     @RequestMapping("/poster/new")
     public String createNewPost() throws IOException {
         if (postFilesList == null || postFilesList.isEmpty()) {
-            deleteFolder(new File("image/" + postFilesList.get(0)));
             createDir();
         } else deleteFolder(new File("image/" + postFilesList.get(0)));
         return "create_post";
