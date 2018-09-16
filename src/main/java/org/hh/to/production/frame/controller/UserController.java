@@ -15,7 +15,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/user/changePassword", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/change-password", method = RequestMethod.POST)
     public @ResponseBody
     String changeUserPassword(@RequestParam("old_password") String oldPassword, @RequestParam("new_password") String newPassword) {
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -14,16 +14,48 @@ public class Post {
     @Column(name = "header")
     private String header;
 
+    @Column(name = "preview_text")
+    private String previewText;
+
+    @Column(name = "preview_image")
+    private String previewImage;
+
     @Column(name = "posting_date")
     private long date;
 
     @Column(name = "post_text")
     private String text;
 
-    public Post(String header, String text, long date) {
+    public Post(int id, String header, String previewText, String previewImage, long date) {
+        this.id = id;
         this.header = header;
+        this.previewText = previewText;
+        this.previewImage = previewImage;
+        this.date = date;
+    }
+
+    public Post(String header, String previewText, String previewImage, String text, long date) {
+        this.header = header;
+        this.previewText = previewText;
+        this.previewImage = previewImage;
         this.text = text;
         this.date = date;
+    }
+
+    public String getPreviewText() {
+        return previewText;
+    }
+
+    public void setPreviewText(String previewText) {
+        this.previewText = previewText;
+    }
+
+    public String getPreviewImage() {
+        return previewImage;
+    }
+
+    public void setPreviewImage(String previewImage) {
+        this.previewImage = previewImage;
     }
 
     public Post() {

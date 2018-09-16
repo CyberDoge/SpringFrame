@@ -36,7 +36,7 @@ public class PostController implements HttpSessionListener {
     }
 
     @RequestMapping(value = "/poster/save", method = RequestMethod.POST)
-    public String savePost(@RequestParam("header") String header, @RequestParam("content") String content, HttpServletRequest request) {
+    public String savePost(@RequestParam("header") String header, @RequestParam("preview_text") String previewText, @RequestParam("preview_image") String previewImage, @RequestParam("content") String content, HttpServletRequest request) {
         if (header.isEmpty()) {
             request.setAttribute("error", "post header cannot be empty");
             return "/poster/new";
@@ -69,11 +69,11 @@ public class PostController implements HttpSessionListener {
         }
         //remove old dirs
         deleteFolder(new File(postFilesList.get(0)));
-        postService.save(new Post(header, document.body().children().html(), new Date().getTime()));
+        postService.save(new Post(header, previewText, "image/" + header + "/" + previewImage, document.body().children().html(), new Date().getTime()));
         return "redirect://localhost:8080/";
     }
 
-    @RequestMapping(value = "/poster/saveImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/poster/save-image", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String saveImage(@RequestParam("upload") MultipartFile image, HttpServletRequest request) throws IOException {
         try (var outputStream = new FileOutputStream(postFilesList.get(0) + "/" + image.getOriginalFilename())) {
@@ -86,7 +86,7 @@ public class PostController implements HttpSessionListener {
     @RequestMapping(value = "/image/{header}/{image}", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     @ResponseBody
     public byte[] getImage(@PathVariable String header, @PathVariable String image, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try (var inputStream = new FileInputStream(request.getRequestURI().substring(1))) {
+        try (var inputStream = new FileInputStream("image/" + header + "/" + image)) {
             return inputStream.readAllBytes();
         } catch (FileNotFoundException e) {
             response.sendError(404, ":no such image");
@@ -96,7 +96,6 @@ public class PostController implements HttpSessionListener {
 
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
-
     }
 
     @Override

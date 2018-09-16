@@ -48,6 +48,6 @@ public class PostServiceImpl implements PostService {
     public List<Post> printPostFrom(int last) {
         if (last < 1) last = postRepository.findFirstByOrderByIdDesc().getId();
         int from = last - 10;
-        return postRepository.findPostByIdBetween(from, last);
+        return postRepository.findPreviewPostByIdBetween(from, last);
     }
 }

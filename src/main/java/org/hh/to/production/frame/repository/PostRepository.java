@@ -12,9 +12,15 @@ import java.util.List;
 @Table(name = "post")
 public interface PostRepository extends JpaRepository<Post, Integer> {
     Post findPostById(Integer id);
+
     Post findPostByHeader(String header);
+
     void deletePostByHeader(String header);
+
     void deletePostById(Integer id);
-    List<Post> findPostByIdBetween(Integer from, Integer to);
+
+    @Query("SELECT new org.hh.to.production.frame.model.Post(p.id, p.header, p.previewText, p.previewImage, p.date) from Post p WHERE p.id BETWEEN ?1 AND ?2")
+    List<Post> findPreviewPostByIdBetween(Integer from, Integer to);
+
     Post findFirstByOrderByIdDesc();
 }

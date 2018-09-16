@@ -19,7 +19,7 @@ public class NewsController {
         return "news";
     }
 
-    @RequestMapping(value = "/news/addMore", method = RequestMethod.POST)
+    @RequestMapping(value = "/news/get-more", method = RequestMethod.POST)
     @ResponseBody
     public List<Post> printMorePosts(@RequestBody int lastId) {
         return postService.printPostFrom(lastId);

@@ -6,7 +6,7 @@ CREATE TABLE user (
   user_id  int primary key auto_increment,
   username varchar(50) unique not null,
   password varchar(255)       not null,
-  enabled tinyint(1) default 1
+  enabled  tinyint(1)      default 1
 );
 DROP TABLE IF EXISTS role;
 CREATE TABLE role (
@@ -25,18 +25,25 @@ CREATE TABLE user_role (
   CONSTRAINT `FKa68196081fvovjhkek5m97n3y` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`)
 );
 
-insert into role value(1, 'ADMIN');
-insert into role values(2, 'USER');
-insert into role values(3, 'POSTER');
+insert into role
+value (1, 'ADMIN');
+insert into role
+values (2, 'USER');
+insert into role
+values (3, 'POSTER');
 
 use frame;
-insert into user(username, password) value ("admin", "$2a$10$S7ukTjY7CoR.O2uksyWrjuBDIOCEgBzMPyfAI1aXS36HXLJDKIcdO");
-insert into user_role value (1, 1);
-insert into user_role value (1, 2);
+insert into user (username, password)
+value ("admin", "$2a$10$S7ukTjY7CoR.O2uksyWrjuBDIOCEgBzMPyfAI1aXS36HXLJDKIcdO");
+insert into user_role
+value (1, 1);
+insert into user_role
+value (1, 2);
 
-CREATE TABLE post(
-  post_id int primary key auto_increment,
-  header VARCHAR(50) unique ,
+CREATE TABLE post (
+  post_id      int primary key auto_increment,
+  header       VARCHAR(50) unique,
+  previewText  VARCHAR(20),
   posting_date BIGINT,
-  post_text TEXT
+  post_text    TEXT
 );

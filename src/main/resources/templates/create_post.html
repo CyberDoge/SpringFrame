@@ -11,14 +11,19 @@
 <body>
 <h3>Enter post info here</h3>
 <form action="/poster/save" method="post">
-    <input type="text" name="header" title="post header"/>
+    <label for="header">header of the post</label>
+    <input type="text" name="header" id="header"/>
+    <label for="preview_text">text of the preveiw</label>
+    <input type="text" name="preview_text" id="preview_text"/>
+    <label for="preview_image">image of thee preview </label>
+    <input type="text" name="preview_image" id="preview_image"/>
     <textarea name="content" id="editor"></textarea>
     <button type="submit">save</button>
 </form>
 <script>
     ClassicEditor.create(document.querySelector('#editor'), {
         ckfinder: {
-            uploadUrl: '/poster/saveImage'
+            uploadUrl: '/poster/save-image'
         }
     }).catch(error => {
         console.error(error);

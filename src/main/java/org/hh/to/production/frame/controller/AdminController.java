@@ -18,27 +18,27 @@ public class AdminController {
     AdminService adminService;
 
 
-    @RequestMapping(value = "/admin/userList", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/user-list", method = RequestMethod.POST)
     @ResponseBody
     public List<User> sendUserList() {
         return adminService.findAll();
     }
 
-    @RequestMapping(value = "/admin/banUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/ban-user", method = RequestMethod.POST)
     @ResponseBody
     public String banUser(@RequestParam() String username) {
         if (username.isEmpty()) return "Empty name";
         return adminService.banUser(username);
     }
 
-    @RequestMapping(value = "/admin/unbanUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/unban-user", method = RequestMethod.POST)
     @ResponseBody
     public String unbanUser(@RequestParam() String username) {
         if (username.isEmpty()) return "Empty name";
         return adminService.unbanUser(username);
     }
 
-    @RequestMapping(value = "/admin/makeAdmin", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/make-admin", method = RequestMethod.POST)
     @ResponseBody
     public String makeAdmin(@RequestParam() String username) {
         if (username.isEmpty()) return "Empty name";
