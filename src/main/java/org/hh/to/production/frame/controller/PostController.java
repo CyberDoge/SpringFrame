@@ -31,7 +31,10 @@ public class PostController implements HttpSessionListener {
     public String createNewPost() throws IOException {
         if (postFilesList == null || postFilesList.isEmpty()) {
             createDir();
-        } else deleteFolder(new File("image/" + postFilesList.get(0)));
+        } else {
+            deleteFolder(new File(postFilesList.get(0)));
+            createDir();
+        }
         return "create_post";
     }
 
@@ -75,10 +78,12 @@ public class PostController implements HttpSessionListener {
 
     @RequestMapping(value = "/poster/save-image", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String saveImage(@RequestParam("upload") MultipartFile image, HttpServletRequest request) throws IOException {
+    public String saveImage(@RequestParam("upload") MultipartFile image, HttpServletRequest request) {
         try (var outputStream = new FileOutputStream(postFilesList.get(0) + "/" + image.getOriginalFilename())) {
             postFilesList.add(image.getOriginalFilename());
             outputStream.write(image.getBytes());
+        } catch (IOException e) {
+            return "{\"uploaded\": 0,\"error\": \"" + e.getLocalizedMessage() + "\"}";
         }
         return "{\"uploaded\": 1,\"url\": \"" + "/" + postFilesList.get(0) + "/" + image.getOriginalFilename() + "\"}";
     }
