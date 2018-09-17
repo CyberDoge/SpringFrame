@@ -42,13 +42,14 @@ public class PostController implements HttpSessionListener {
     public String savePost(@RequestParam("header") String header, @RequestParam("preview_text") String previewText, @RequestParam("preview_image") String previewImage, @RequestParam("content") String content, HttpServletRequest request) {
         if (header.isEmpty()) {
             request.setAttribute("error", "post header cannot be empty");
-            return "/poster/new";
+            return "redirect:/poster/new";
         }
         if (postService.findPost(header) != null) {
             request.setAttribute("error", "post with this header has been already exist");
-            return "/poster/new";
+            return "redirect:/poster/new";
         }
         var document = Jsoup.parse(content);
+
         var images = document.getElementsByTag("img");
         if (!images.isEmpty()) {
             images.forEach(i -> {
@@ -69,6 +70,17 @@ public class PostController implements HttpSessionListener {
                     }
                 });
             });
+        }
+        if (!previewImage.isEmpty()) {
+            try {
+
+                if (!Files.exists(Paths.get("image/" + header))) {
+                    Files.createDirectories(Paths.get("image/" + header));
+                }
+                Files.move(Paths.get(postFilesList.get(0) + "/" + previewImage), Paths.get("image/" + header + "/" + previewImage), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         //remove old dirs
         deleteFolder(new File(postFilesList.get(0)));
