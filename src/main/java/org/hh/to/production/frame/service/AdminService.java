@@ -9,5 +9,6 @@ public interface AdminService {
 
     String banUser(String username);
     String unbanUser(String username);
-    String makeAdmin(String username);
+
+    String addRole(String username, String role);
 }

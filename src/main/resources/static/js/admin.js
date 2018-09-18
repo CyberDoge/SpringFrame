@@ -8,8 +8,8 @@ $(function () {
     $("#unban-user").click(function () {
         send_ajax_for_user_unban($("#username-for-action").val())
     });
-    $("#make-admin").click(function () {
-        send_ajax_to_make_admin($("#username-for-action").val())
+    $(".add-role").click(function () {
+        send_ajax_to_add_role($("#username-for-action").val(), this.id)
     })
 });
 
@@ -24,16 +24,20 @@ function send_ajax_for_user_ban(username) {
     })
 }
 
-function send_ajax_to_make_admin(username) {
+function send_ajax_to_add_role(username, role) {
     $.ajax({
         type: "POST",
-        url: "make-admin",
-        data: {"username": username},
+        url: "add-role",
+        data: {
+            "username": username,
+            "role": role
+        },
         success: function (res) {
             alert(res)
         }
     })
 }
+
 function send_ajax_for_user_unban(username) {
     $.ajax({
         type: "POST",
@@ -63,7 +67,7 @@ function createList(data) {
         $.each(this.roles, function () {
             roles += "<small>" + this.role + "</small> "
         });
-        $("#user-list").append("<tr><td>" + this.id + "</td><td>" + this.username + "</td><td>" + this.enabled + "</td><td>"+this.online+"</td><td>"
+        $("#user-list").append("<tr><td>" + this.id + "</td><td>" + this.username + "</td><td>" + this.enabled + "</td><td>" + this.online + "</td><td>"
             + roles + "</td></tr>");
     })
 }

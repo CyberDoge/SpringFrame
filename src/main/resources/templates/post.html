@@ -8,5 +8,17 @@
 <h2 th:utext="${post.header}"></h2>
 <div th:utext="${post.text}"></div>
 <i th:text="${#dates.format(new java.util.Date(post.date), 'dd-MM-yyyy')}"></i>
+
+<div id="comments">
+    <div id="list">
+    </div>
+    <div sec:authorize="isAuthenticated()">
+        <input type="text">
+        <button> send</button>
+    </div>
+    <div sec:authorize="isAnonymous()">
+        <a href="login"> login</a>
+    </div>
+</div>
 </body>
 </html>

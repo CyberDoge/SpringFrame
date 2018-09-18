@@ -38,10 +38,10 @@ public class AdminController {
         return adminService.unbanUser(username);
     }
 
-    @RequestMapping(value = "/admin/make-admin", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/add-role", method = RequestMethod.POST)
     @ResponseBody
-    public String makeAdmin(@RequestParam() String username) {
+    public String setRole(@RequestParam() String username, @RequestParam() String role) {
         if (username.isEmpty()) return "Empty name";
-        return adminService.makeAdmin(username);
+        return adminService.addRole(username, role);
     }
 }

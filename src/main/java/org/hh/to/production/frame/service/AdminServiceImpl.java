@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -59,10 +57,13 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public String makeAdmin(String username) {
-        Set<Role> roles = Stream.of(roleRepository.findByRole("USER"), roleRepository.findByRole("ADMIN")).collect(Collectors.toSet());
+    public String addRole(String username, String role) {
         User user = userRepository.findByUsername(username);
         if (user == null) return "No user with such username";
+        Set<Role> roles = user.getRoles();
+        var newRole = roleRepository.findByRole(role);
+        if (newRole == null) return "No such role";
+        roles.add(newRole);
         user.setRoles(roles);
         userRepository.save(user);
         return "Success";
