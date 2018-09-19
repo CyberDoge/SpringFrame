@@ -47,3 +47,13 @@ CREATE TABLE post (
   posting_date BIGINT,
   post_text    TEXT
 );
+
+CREATE TABLE comment (
+  comment_id int primary key auto_increment,
+  user_id    int,
+  text       varchar(250),
+  date       BIGINT(9),
+  voices     SMALLINT        DEFAULT 0,
+  post_id    INT,
+  FOREIGN KEY (post_id) REFERENCES frame.post (post_id)
+)

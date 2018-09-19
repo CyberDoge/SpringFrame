@@ -2,6 +2,7 @@ package org.hh.to.production.frame.model;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "post")
@@ -26,6 +27,10 @@ public class Post {
     @Column(name = "post_text")
     private String text;
 
+    @ElementCollection
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
+
     public Post(int id, String header, String previewText, String previewImage, long date) {
         this.id = id;
         this.header = header;
@@ -42,6 +47,17 @@ public class Post {
         this.date = date;
     }
 
+    public Post() {
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     public String getPreviewText() {
         return previewText;
     }
@@ -56,9 +72,6 @@ public class Post {
 
     public void setPreviewImage(String previewImage) {
         this.previewImage = previewImage;
-    }
-
-    public Post() {
     }
 
     public int getId() {
@@ -81,15 +94,15 @@ public class Post {
         return text;
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
+
     public String getHeader() {
         return header;
     }
 
     public void setHeader(String header) {
         this.header = header;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <meta charset="UTF-8">
     <title th:text="${post.header}"></title>
@@ -11,10 +11,28 @@
 
 <div id="comments">
     <div id="list">
+        <div class="comment" th:each="comment : ${post.comments}">
+            <p th:text="${comment.text}"></p>
+        </div>
     </div>
     <div sec:authorize="isAuthenticated()">
-        <input type="text">
-        <button> send</button>
+        <input type="text" id="comment">
+        <button id="send_comment"> send</button>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script>
+            $(function () {
+                $("#send_comment").click(function () {
+                    $.ajax({
+                        method: "post",
+                        url: window.location.pathname + "/add-comment",
+                        data: $("#comment").val(),
+                        success: function (data) {
+                            $(".comment").append(data);
+                        }
+                    })
+                })
+            })
+        </script>
     </div>
     <div sec:authorize="isAnonymous()">
         <a href="login"> login</a>
