@@ -8,7 +8,7 @@ import java.util.List;
 @Table(name = "post")
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "post_id")
     private int id;
 
@@ -27,12 +27,7 @@ public class Post {
     @Column(name = "post_text")
     private String text;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "comment_up",
-            joinColumns = @JoinColumn(name = "comment_id",
-                    referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id",
-                    referencedColumnName = "id"))
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     public Post(int id, String header, String previewText, String previewImage, long date) {

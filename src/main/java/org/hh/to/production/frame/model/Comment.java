@@ -3,20 +3,20 @@ package org.hh.to.production.frame.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "comment")
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "comment_id")
     private int id;
 
     @Transient
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "post_id")
     @JsonIgnore
     private Post post;
@@ -41,7 +41,7 @@ public class Comment {
                     referencedColumnName = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id",
                     referencedColumnName = "user_id"))
-    private List<Integer> votedUp;
+    private Set<Integer> votedUp;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "comment_down",
@@ -49,7 +49,7 @@ public class Comment {
                     referencedColumnName = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id",
                     referencedColumnName = "user_id"))
-    private List<Integer> votedDown;
+    private Set<Integer> votedDown;
 
     public Comment(Post post, int userId, String text, long date, int voices, User user) {
         this.post = post;
@@ -62,11 +62,19 @@ public class Comment {
     public Comment() {
     }
 
-    public List<Integer> getVotedDown() {
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public Set<Integer> getVotedDown() {
         return votedDown;
     }
 
-    public void setVotedDown(List<Integer> votedDown) {
+    public void setVotedDown(Set<Integer> votedDown) {
         this.votedDown = votedDown;
     }
 
@@ -78,11 +86,11 @@ public class Comment {
         this.user = user;
     }
 
-    public List<Integer> getVotedUp() {
+    public Set<Integer> getVotedUp() {
         return votedUp;
     }
 
-    public void setVotedUp(List<Integer> votedUp) {
+    public void setVotedUp(Set<Integer> votedUp) {
         this.votedUp = votedUp;
     }
 
