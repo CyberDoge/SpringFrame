@@ -49,11 +49,24 @@ CREATE TABLE post (
 );
 
 CREATE TABLE comment (
-  comment_id int primary key auto_increment,
+  comment_id BIGINT(20) UNSIGNED primary key auto_increment,
   user_id    int,
   text       varchar(250),
   date       BIGINT(9),
-  voices     SMALLINT        DEFAULT 0,
+  voices     SMALLINT                        DEFAULT 0,
   post_id    INT,
   FOREIGN KEY (post_id) REFERENCES frame.post (post_id)
+)
+
+
+CREATE TABLE comment_up (
+  comment_id BIGINT(20),
+  user_id    int,
+  primary key (comment_id, user_id)
+);
+
+CREATE TABLE comment_down (
+  comment_id BIGINT(20),
+  user_id    int,
+  primary key (comment_id, user_id)
 )

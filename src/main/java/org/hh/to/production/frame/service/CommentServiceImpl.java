@@ -7,8 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CommentServiceImpl implements CommentService {
+    private final CommentRepository commentRepository;
+
     @Autowired
-    CommentRepository commentRepository;
+    public CommentServiceImpl(CommentRepository commentRepository) {
+        this.commentRepository = commentRepository;
+    }
 
     @Override
     public void save(Comment comment) {
@@ -16,23 +20,31 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(int id) {
         commentRepository.deleteById(id);
     }
 
     @Override
-    public void voteUp(Integer id) {
-        commentRepository.findById(id).ifPresent(c -> {
-            c.setVoices(c.getVoices() + 1);
-            commentRepository.save(c);
-        });
+    public boolean voteUp(int id, Integer userId) {
+        return commentRepository.findById(id).map(c -> {
+            if (c.getVotedUp().stream().anyMatch(userId::equals)) {
+                c.setVoices(c.getVoices() + 1);
+                commentRepository.save(c);
+                return true;
+            }
+            return false;
+        }).get();
     }
 
     @Override
-    public void voteDown(Integer id) {
-        commentRepository.findById(id).ifPresent(c -> {
-            c.setVoices(c.getVoices() - 1);
-            commentRepository.save(c);
-        });
+    public boolean voteDown(int id, Integer userId) {
+        return commentRepository.findById(id).map(c -> {
+            if (c.getVotedDown().stream().anyMatch(userId::equals)) {
+                c.setVoices(c.getVoices() - 1);
+                commentRepository.save(c);
+                return true;
+            }
+            return false;
+        }).get();
     }
 }

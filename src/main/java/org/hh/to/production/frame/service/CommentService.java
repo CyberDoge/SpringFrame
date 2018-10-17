@@ -5,9 +5,9 @@ import org.hh.to.production.frame.model.Comment;
 public interface CommentService {
     void save(Comment comment);
 
-    void delete(Integer id);
+    void delete(int id);
 
-    void voteUp(Integer id);
+    boolean voteUp(int id, Integer userId);
 
-    void voteDown(Integer id);
+    boolean voteDown(int id, Integer userId);
 }

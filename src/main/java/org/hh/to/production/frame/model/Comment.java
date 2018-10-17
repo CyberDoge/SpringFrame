@@ -1,21 +1,29 @@
 package org.hh.to.production.frame.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "comment")
 public class Comment {
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private Post post;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private int id;
 
+    @Transient
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    @JsonIgnore
+    private Post post;
+
+
     @Column(name = "user_id")
+    @JsonIgnore
     private int userId;
 
     @Column(name = "text")
@@ -27,7 +35,23 @@ public class Comment {
     @Column(name = "voices")
     private int voices;
 
-    public Comment(Post post, int userId, String text, long date, int voices) {
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "comment_up",
+            joinColumns = @JoinColumn(name = "comment_id",
+                    referencedColumnName = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id",
+                    referencedColumnName = "user_id"))
+    private List<Integer> votedUp;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "comment_down",
+            joinColumns = @JoinColumn(name = "comment_id",
+                    referencedColumnName = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id",
+                    referencedColumnName = "user_id"))
+    private List<Integer> votedDown;
+
+    public Comment(Post post, int userId, String text, long date, int voices, User user) {
         this.post = post;
         this.userId = userId;
         this.text = text;
@@ -36,6 +60,30 @@ public class Comment {
     }
 
     public Comment() {
+    }
+
+    public List<Integer> getVotedDown() {
+        return votedDown;
+    }
+
+    public void setVotedDown(List<Integer> votedDown) {
+        this.votedDown = votedDown;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Integer> getVotedUp() {
+        return votedUp;
+    }
+
+    public void setVotedUp(List<Integer> votedUp) {
+        this.votedUp = votedUp;
     }
 
     public int getId() {

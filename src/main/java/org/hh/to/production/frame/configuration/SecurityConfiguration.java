@@ -36,8 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery(usersQuery).authoritiesByUsernameQuery(rolesQuery).passwordEncoder(bCryptPasswordEncoder);
+        auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery(usersQuery).authoritiesByUsernameQuery(rolesQuery).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
@@ -45,6 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/home").permitAll()
                 .antMatchers("/registration").permitAll()
+                .antMatchers("/news/*/add-comment").not().anonymous()
                 .antMatchers("/user/**").hasAuthority("USER")
                 .antMatchers("/poster/**").hasAnyAuthority("POSTER", "ADMIN")
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
