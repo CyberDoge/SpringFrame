@@ -16,7 +16,7 @@ public class Comment {
     @Transient
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     @JsonIgnore
     private Post post;
@@ -41,7 +41,7 @@ public class Comment {
                     referencedColumnName = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id",
                     referencedColumnName = "user_id"))
-    private Set<Integer> votedUp;
+    private Set<User> votedUp;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "comment_down",
@@ -49,7 +49,7 @@ public class Comment {
                     referencedColumnName = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id",
                     referencedColumnName = "user_id"))
-    private Set<Integer> votedDown;
+    private Set<User> votedDown;
 
     public Comment(Post post, int userId, String text, long date, int voices, User user) {
         this.post = post;
@@ -70,11 +70,11 @@ public class Comment {
         this.post = post;
     }
 
-    public Set<Integer> getVotedDown() {
+    public Set<User> getVotedDown() {
         return votedDown;
     }
 
-    public void setVotedDown(Set<Integer> votedDown) {
+    public void setVotedDown(Set<User> votedDown) {
         this.votedDown = votedDown;
     }
 
@@ -86,11 +86,11 @@ public class Comment {
         this.user = user;
     }
 
-    public Set<Integer> getVotedUp() {
+    public Set<User> getVotedUp() {
         return votedUp;
     }
 
-    public void setVotedUp(Set<Integer> votedUp) {
+    public void setVotedUp(Set<User> votedUp) {
         this.votedUp = votedUp;
     }
 

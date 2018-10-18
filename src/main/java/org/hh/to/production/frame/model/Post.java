@@ -2,7 +2,8 @@ package org.hh.to.production.frame.model;
 
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
+
 
 @Entity
 @Table(name = "post")
@@ -11,24 +12,18 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "post_id")
     private int id;
-
     @Column(name = "header")
     private String header;
-
     @Column(name = "preview_text")
     private String previewText;
-
     @Column(name = "preview_image")
     private String previewImage;
-
     @Column(name = "posting_date")
     private long date;
-
     @Column(name = "post_text")
     private String text;
-
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<Comment> comments;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Comment> comments;
 
     public Post(int id, String header, String previewText, String previewImage, long date) {
         this.id = id;
@@ -49,12 +44,20 @@ public class Post {
     public Post() {
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public int getId() {
+        return id;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
     }
 
     public String getPreviewText() {
@@ -73,14 +76,6 @@ public class Post {
         this.previewImage = previewImage;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public long getDate() {
         return date;
     }
@@ -97,11 +92,11 @@ public class Post {
         this.text = text;
     }
 
-    public String getHeader() {
-        return header;
+    public Set<Comment> getComments() {
+        return comments;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 }
