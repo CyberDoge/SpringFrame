@@ -14,15 +14,14 @@ else
         echo "All is well.";
 fi
  
-echo "Please enter new password of admin: "
+echo "Please enter new password for admin: "
 read -s admin_password;
+#todo find lib for hashing as in java
 # pip install bcrypt
-
-encode= python -c "import bcrypt, sys; salt = bcrypt.gensalt(); hashed = bcrypt.hashpw(sys.argv[0], salt); sys.exit(hashed)" $admin_password
-echo $encode
-query="s/\$2a\$10\$S7ukTjY7CoR.O2uksyWrjuBDIOCEgBzMPyfAI1aXS36HXLJDKIcdO/$encode/g"
-echo $query
-eval "sed -i -e  ./src/main/resources/sql/init.sql
+#encode= python -c "import bcrypt, sys; hashed = bcrypt.hashpw(sys.argv[0], bcrypt.gensalt(prefix=b\"2a\", rounds=10)); sys.exit(hashed)" $admin_password
+#echo $encode
+#query='s/$2a$10$S7ukTjY7CoR.O2uksyWrjuBDIOCEgBzMPyfAI1aXS36HXLJDKIcdO/' + $encode + '/g'
+#eval "sed -i -e  ./src/main/resources/sql/init.sql
 
 echo "Source sql script"
 echo -n "Enter login: "
@@ -36,6 +35,4 @@ if  ! type mvn > /dev/null; then
     exit 1
 fi
 
-sed -i -e 's/123123/$2a$10$S7ukTjY7CoR.O2uksyWrjuBDIOCEgBzMPyfAI1aXS36HXLJDKIcdO/g' ./src/main/resources/sql/init.sql
-
-# mvn clean install
+mvn clean install

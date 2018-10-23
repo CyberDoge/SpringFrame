@@ -25,7 +25,7 @@ public class Encypt {
     @Test
     public void bashVsJavaEncoders() {
         System.out.println(new BCryptPasswordEncoder().matches("123123",
-                "$2y$10$NacjfWDKe6n9CCmrVCRi9.S/Cvw5OJHw2d14LtbMYf2GAebNRUZiu"));
+                "$2a$10$6Rv9YjGI4FKRes4qfmbLm.Dlnl7AlaGfTwutPzuTM7aaVkXG5ikKq"));
     }
 
 }
