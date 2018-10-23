@@ -56,7 +56,7 @@ CREATE TABLE comment (
   voices     SMALLINT                        DEFAULT 0,
   post_id    INT,
   FOREIGN KEY (post_id) REFERENCES frame.post (post_id)
-)
+);
 
 
 CREATE TABLE comment_up (
