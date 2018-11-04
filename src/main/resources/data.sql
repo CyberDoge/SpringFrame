@@ -43,7 +43,8 @@ value (1, 2);
 CREATE TABLE post (
   post_id      int primary key auto_increment,
   header       VARCHAR(50) unique,
-  previewText  VARCHAR(20),
+  preview_text  VARCHAR(20),
+  preview_image  VARCHAR(30),
   posting_date BIGINT,
   post_text    TEXT
 );
@@ -53,7 +54,6 @@ CREATE TABLE comment (
   user_id    int,
   text       varchar(250),
   date       BIGINT(9),
-  voices     SMALLINT                        DEFAULT 0,
   post_id    INT,
   FOREIGN KEY (post_id) REFERENCES frame.post (post_id)
 );
@@ -69,4 +69,4 @@ CREATE TABLE comment_down (
   comment_id BIGINT(20),
   user_id    int,
   primary key (comment_id, user_id)
-)
+);

@@ -27,9 +27,11 @@
                 $.ajax({
                     method: "post",
                     url: window.location.pathname + "/add-comment",
-                    data: $("#comment").val(),
+                    data: {
+                        "comment": $("#comment").val(),
+                    },
                     success: function (data) {
-                        $("#comment").val('')
+                        $("#comment").val('');
                         addComment(data)
                     }
                 })

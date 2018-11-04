@@ -1,6 +1,7 @@
 package org.hh.to.production.frame.service;
 
 import org.hh.to.production.frame.model.Comment;
+import org.hh.to.production.frame.model.User;
 import org.hh.to.production.frame.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,10 +26,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public boolean voteUp(int id, Integer userId) {
+    public boolean voteUp(int id, User user) {
         return commentRepository.findById(id).map(c -> {
-            if (c.getVotedUp().stream().anyMatch(userId::equals)) {
-                c.setVoices(c.getVoices() + 1);
+            if (c.getVotedUp().stream().noneMatch(user::equals)) {
+                if (!c.getVotedDown().remove(user))
+                    c.getVotedUp().add(user);
                 commentRepository.save(c);
                 return true;
             }
@@ -37,10 +39,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public boolean voteDown(int id, Integer userId) {
+    public boolean voteDown(int id, User user) {
         return commentRepository.findById(id).map(c -> {
-            if (c.getVotedDown().stream().anyMatch(userId::equals)) {
-                c.setVoices(c.getVoices() - 1);
+            if (c.getVotedDown().stream().noneMatch(user::equals)) {
+                if (!c.getVotedUp().remove(user))
+                    c.getVotedDown().add(user);
                 commentRepository.save(c);
                 return true;
             }

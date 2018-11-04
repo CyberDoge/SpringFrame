@@ -25,23 +25,25 @@ public class CommentController {
     }
 
     @RequestMapping(value = "/news/{id}/add-comment")
-    public Comment addComment(@PathVariable int id, @RequestBody() String commentStr) {
+    public Comment addComment(@PathVariable int id, @RequestParam("comment") String commentStr) {
         var post = new Post();
         post.setId(id);
         var user = userService.findUserByUsername(((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-        var comment = new Comment(post, user.getId(), commentStr, new Date().getTime(), 0, user);
+        var comment = new Comment(post, user.getId(), commentStr, new Date().getTime());
         commentService.save(comment);
+        comment.setUser(user);
         return comment;
     }
 
     @PostMapping(value = "/news/{comment-id}/vote-up")
     public boolean upVoteForComment(@PathVariable("comment-id")int id){
-        return commentService.voteUp(id, 0);
+        var user = userService.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        return commentService.voteUp(id, user);
     }
 
     @PostMapping(value = "/news/{comment-id}/vote-down")
     public boolean downVoteForComment(@PathVariable("comment-id")int id){
         var user = userService.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        return commentService.voteDown(id, user.getId());
+        return commentService.voteDown(id, user);
     }
 }

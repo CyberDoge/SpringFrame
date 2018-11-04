@@ -9,7 +9,7 @@ import java.util.Set;
 @Table(name = "comment")
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private int id;
 
@@ -22,6 +22,7 @@ public class Comment {
     private Post post;
 
 
+    //todo change user_id to object user
     @Column(name = "user_id")
     @JsonIgnore
     private int userId;
@@ -31,9 +32,6 @@ public class Comment {
 
     @Column(name = "date")
     private long date;
-
-    @Column(name = "voices")
-    private int voices;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "comment_up",
@@ -51,12 +49,11 @@ public class Comment {
                     referencedColumnName = "user_id"))
     private Set<User> votedDown;
 
-    public Comment(Post post, int userId, String text, long date, int voices, User user) {
+    public Comment(Post post, int userId, String text, long date) {
         this.post = post;
         this.userId = userId;
         this.text = text;
         this.date = date;
-        this.voices = voices;
     }
 
     public Comment() {
@@ -126,11 +123,10 @@ public class Comment {
         this.date = date;
     }
 
+    @Transient
     public int getVoices() {
-        return voices;
+        if (getVotedUp()==null || getVotedDown() == null) return 0;
+        return getVotedUp().size() - getVotedDown().size();
     }
 
-    public void setVoices(int voices) {
-        this.voices = voices;
-    }
 }
