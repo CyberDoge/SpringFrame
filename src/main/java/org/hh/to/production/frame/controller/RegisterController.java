@@ -27,7 +27,7 @@ public class RegisterController {
     AuthenticationManager authenticationManager;
 
 
-    @RequestMapping(value = {"/reg", "/register", "/registration", "/sign-up"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/sign-up"}, method = RequestMethod.GET)
     public ModelAndView openRegisterPage() {
         return new ModelAndView("registration", "user", new User());
     }

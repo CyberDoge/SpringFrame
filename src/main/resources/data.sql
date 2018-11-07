@@ -1,5 +1,5 @@
 DROP DATABASE IF EXISTS frame;
-CREATE DATABASE frame;
+CREATE DATABASE frame CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE frame;
 DROP TABLE IF EXISTS user;
 CREATE TABLE user (
@@ -42,9 +42,9 @@ value (1, 2);
 
 CREATE TABLE post (
   post_id      int primary key auto_increment,
-  header       VARCHAR(50) unique,
-  preview_text  VARCHAR(20),
-  preview_image  VARCHAR(30),
+  header       VARCHAR(255) unique,
+  preview_text  VARCHAR(255),
+  preview_image  VARCHAR(255),
   posting_date BIGINT,
   post_text    TEXT
 );

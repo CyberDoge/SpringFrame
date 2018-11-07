@@ -23,6 +23,7 @@ public class Post {
     @Column(name = "post_text")
     private String text;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OrderBy("post_id")
     private Set<Comment> comments;
 
     public Post(int id, String header, String previewText, String previewImage, long date) {
